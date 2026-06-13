@@ -23,7 +23,7 @@ const userState = {};
 const ADMIN_ID = 7273415925;
 
 // START
-bot.onText(//start/, (msg) => {
+bot.onText(/\/start/, (msg) => {
 bot.sendMessage(msg.chat.id,
 `👋 Welcome to FIR Bot
 
@@ -51,6 +51,7 @@ if (msg.text === "📝 Start FIR") {
 }
 
 if (!userState[chatId]) return;
+});
 
 const step = userState[chatId].step;
 
