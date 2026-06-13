@@ -9,15 +9,24 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-// ✅ SINGLE BOT (NO polling)
-const bot = new TelegramBot(process.env.BOT_TOKEN);
+let bot;
 
-// ✅ Webhook setup
 const URL = process.env.RENDER_EXTERNAL_URL;
 const PORT = process.env.PORT || 3000;
 
-bot.setWebHook(`${URL}/bot${process.env.BOT_TOKEN}`);
+if (URL) {
+    // ✅ PRODUCTION (Render)
+    bot = new TelegramBot(process.env.BOT_TOKEN);
 
+    bot.setWebHook(`${URL}/bot${process.env.BOT_TOKEN}`);
+    console.log("🌐 Running in WEBHOOK mode");
+} else {
+    // ✅ LOCAL (your laptop)
+    bot = new TelegramBot(process.env.BOT_TOKEN, {
+        polling: true
+    });
+    console.log("💻 Running in POLLING mode");
+}
 // ✅ Webhook route
 app.post(`/bot${process.env.BOT_TOKEN}`, (req, res) => {
     bot.processUpdate(req.body);
