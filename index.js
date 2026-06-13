@@ -4,9 +4,37 @@ const mongoose = require('mongoose');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
 
-const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
+const app = express();
+app.use(express.json());
 
+// ✅ SINGLE BOT (NO polling)
+const bot = new TelegramBot(process.env.BOT_TOKEN);
+
+// ✅ Webhook setup
+const URL = process.env.RENDER_EXTERNAL_URL;
+const PORT = process.env.PORT || 3000;
+
+bot.setWebHook(`${URL}/bot${process.env.BOT_TOKEN}`);
+
+// ✅ Webhook route
+app.post(`/bot${process.env.BOT_TOKEN}`, (req, res) => {
+    bot.processUpdate(req.body);
+    res.sendStatus(200);
+});
+
+// ✅ Test route
+app.get('/', (req, res) => {
+    res.send("Bot running ✅");
+});
+
+// ✅ Start server
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+});
+
+// DB connect
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("✅ MongoDB Connected"))
 .catch(err => console.log(err));
