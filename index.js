@@ -58,18 +58,16 @@ const step = userState[chatId].step;
 // PAYMENT
 if (step === "payment") {
     if (msg.photo) {
-        bot.sendMessage(chatId, "⏳ Waiting for admin approval...");
+    bot.sendMessage(chatId, "⏳ Waiting for admin approval...");
 
-        bot.sendMessage(ADMIN_ID,
-```
-
-`💰 PAYMENT REQUEST
+    bot.sendMessage(ADMIN_ID,
+        `💰 PAYMENT REQUEST
 
 User ID: ${chatId}
 
 Approve: /approve_${chatId}
 Reject: /reject_${chatId}`
-);
+    );
 }
 }
 
