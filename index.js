@@ -26,16 +26,17 @@ const ADMIN_ID = 7273415925;
 
 // START
 bot.onText(//start/, (msg) => {
-bot.sendMessage(msg.chat.id,
-`👋 Welcome to FIR Bot
+bot.sendMessage(chatId, 
+`👋 Welcome to FIR Registration Bot
 
-Click below to start`,
+📄 You can file your FIR easily here.
+
+👉 Click below to start`,
 {
-reply_markup: {
-keyboard: [["📝 Start FIR"]],
-resize_keyboard: true
-}
-});
+    reply_markup: {
+        keyboard: [["📝 Start FIR"]],
+        resize_keyboard: true
+    }
 });
 
 // START FIR BUTTON
